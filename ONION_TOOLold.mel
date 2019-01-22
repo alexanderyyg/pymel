@@ -1,0 +1,34 @@
+global proc shelf_ONION_TOOL () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "open ONION Tools' Asset Manager" 
+        -enableBackground 0
+        -align "center" 
+        -label "Asset Manager" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0 0 1 
+        -overlayLabelBackColor 0 0 0 0 
+        -image "toonGetExample.png" 
+        -image1 "toonGetExample.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "# -*- coding: UTF-8 -*-\nimport os, time, shutil, re, sys, subprocess, inspect, filecmp\nfrom os.path import dirname\nimport maya.cmds as mc\nimport maya.mel as mel\nenvapp='ONION_APP_ROOT'\ntitle = u'设置模型库位置'\ntitleapp=u'设置py文件位置'\npathApp=os.path.abspath(mc.workspace(q=True,directory=True))\nrootapp=pathApp.decode('gb2312')\nimageName = 'assetManager.png'\nif not os.getenv(envapp):\n\tif not os.path.exists(pathApp):\n\t\tuserPath=mc.fileDialog2(caption=u'请选择py后缀文件所在目录', fileMode=2, okCaption='Select')\n\t\tif userPath!=None:\n\t\t\trootapp=userPath[0]\n\t\telse:\n\t\t\trootapp=\"\"\n\tif rootapp!=\"\":\n\t\tif mc.about(win=True):\n\t\t\tcommand='SETX '+envapp+' '+rootapp\n\t\telif mc.about(li=True):\n\t\t\tcommand = 'setenv ' + envapp + ' ' + rootapp\n\t\ttry:\n\t\t\tos.popen(command)\n\t\texcept:\n\t\t\tmessage = envapp + ' was NOT succesfully set to: ' + rootapp + '\\nError: ' + command\n\t\telse:\n\t\t\tmessage=envapp + ' was succesfully set to: ' + rootapp\n\t\t\tos.environ[envapp]=rootapp\nenv = 'ONION_FILES_ROOT'\nroot=\"\"\nif not os.getenv(env):\n\tpathX=\"\\\\\\\\server\\\\Share\\\\scripts\\\\Storage\\\\\"\n\troot=pathX\n\tif not os.path.exists(pathX):\n\t\tuserPath=mc.fileDialog2(caption=u'请选择模型库的网络路径', fileMode=2, okCaption='Select')\n\t\tif userPath!=None:\n\t\t\troot=userPath[0]\n\t\telse:\n\t\t\troot=\"\"\n\tif root!=\"\":\n\t\tif mc.about(win=True):\n\t\t\tcommand='SETX '+env+' '+root\n\t\telif mc.about(li=True):\n\t\t\tcommand = 'setenv ' + env + ' ' + root\n\t\ttry:\n\t\t\tos.popen(command)\n\t\texcept:\n\t\t\tmessage = env + ' was NOT succesfully set to: ' + root + '\\nError: ' + command\n\t\telse:\n\t\t\tmessage=env + ' was succesfully set to: ' + root\n\t\t\tos.environ[env]=root\nelse:\n\troot=os.environ[env]\nif root!=\"\" and rootapp!=\"\":\n\troot=os.environ[env]\n\tname = 'Assert: ' + os.path.basename(root)\n\ttooltip = \"AM: \" + root\n\ticonLabel =u'模型库'# os.path.basename(root)\n\tsys.path.append(os.getenv(envapp))\n\tprint type(os.path.abspath(root))\n\timport mycheck5\n\tif type(root)==unicode:\n\t\tmycheck5.start(path=os.path.abspath(os.environ[envapp]).decode('gb2312'),storagepath=root.encode('utf-8'))\n\tif type(root)==str:\n\t\tmycheck5.start(path=os.path.abspath(os.environ[envapp]).decode('gb2312'),storagepath=root)\n"
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
